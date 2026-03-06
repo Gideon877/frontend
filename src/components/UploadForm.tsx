@@ -15,7 +15,7 @@ export default function UploadForm() {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        
+
         // 1. Trigger the global notification via Zustand
         show('Analyzing document...', 'processing');
 
@@ -23,7 +23,8 @@ export default function UploadForm() {
 
         try {
             // 2. Fetch data from our Node.js backend
-            const response = await fetch('http://localhost:5000/api/upload', {
+            const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+            const response = await fetch(`${apiUrl}/upload`, {
                 method: 'POST',
                 body: formData,
             });
@@ -34,14 +35,14 @@ export default function UploadForm() {
             }
 
             const data = await response.json();
-            
+
             // 3. Store result in Context and update UI feedback
             setResult(data);
             show('Document processed successfully!', 'success');
-            
+
             // 4. Smooth transition to the results view
             setTimeout(() => router.push('/results'), 1200);
-            
+
         } catch (err: any) {
             // 5. Handle errors globally via the Toast
             show(err.message || 'Connection error. Is the server running?', 'error');
@@ -49,8 +50,8 @@ export default function UploadForm() {
     };
 
     return (
-        <form 
-            onSubmit={handleSubmit} 
+        <form
+            onSubmit={handleSubmit}
             className={`apple-card max-w-lg mx-auto p-10 rounded-[2.5rem] space-y-8 transition-all duration-500 
                 ${isProcessing ? 'opacity-40 scale-[0.98] pointer-events-none' : 'opacity-100 scale-100'}`}
         >
@@ -107,8 +108,8 @@ export default function UploadForm() {
                 type="submit"
                 disabled={isProcessing}
                 className={`w-full py-4 text-white font-semibold rounded-full transition-all duration-300 shadow-lg 
-                    ${isProcessing 
-                        ? 'bg-slate-300 shadow-none' 
+                    ${isProcessing
+                        ? 'bg-slate-300 shadow-none'
                         : 'bg-apple-blue shadow-blue-500/20 hover:shadow-blue-500/40 hover:-translate-y-0.5 active:scale-[0.98]'}`}
             >
                 {isProcessing ? 'Processing...' : 'Continue'}
