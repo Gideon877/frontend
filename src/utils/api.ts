@@ -1,5 +1,6 @@
 export const uploadData = async (formData: FormData) => {
-    const response = await fetch('http://localhost:5000/api/upload', {
+    const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000/api';
+    const response = await fetch(`${apiUrl}/upload`, {
         method: 'POST',
         body: formData,
     });
