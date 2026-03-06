@@ -1,0 +1,21 @@
+@import "tailwindcss";
+
+@theme {
+  --color-apple-blue: #0071e3;
+  --color-apple-gray: #f5f5f7;
+  --font-sans: "SF Pro Display", "Inter", system-ui, sans-serif;
+  
+  /* Define the shadow here to avoid the bracket error */
+  --shadow-apple: 0 8px 30px rgba(0, 0, 0, 0.04);
+}
+
+body {
+  background-color: var(--color-apple-gray);
+  color: #1d1d1f;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Updated class using the theme variable */
+.apple-card {
+  @apply bg-white/80 backdrop-blur-xl border border-white/20 shadow-apple;
+}
